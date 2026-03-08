@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SH-Commit Protocol | Technical Whitepaper</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Space+Grotesk:wght@300;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --hudson-black: #05070a;
+            --hudson-steel: #1e293b;
+            --accent-sky: #38bdf8;
+            --glass-border: rgba(255, 255, 255, 0.08);
+        }
+
+        body {
+            background-color: var(--hudson-black);
+            color: #94a3b8;
+            font-family: 'Inter', sans-serif;
+            line-height: 1.6;
+            selection-background: var(--accent-sky);
+        }
+
+        .paper-container {
+            max-width: 850px;
+            margin: 0 auto;
+            padding: 120px 40px;
+            background: linear-gradient(to bottom, rgba(15, 23, 42, 0.2), transparent);
+        }
+
+        h1, h2, h3 {
+            font-family: 'Space Grotesk', sans-serif;
+            color: #f8fafc;
+            letter-spacing: -0.02em;
+        }
+
+        .section-divider {
+            height: 1px;
+            background: linear-gradient(to right, var(--glass-border), transparent);
+            margin: 4rem 0;
+        }
+
+        .code-snippet {
+            font-family: 'monospace';
+            background: rgba(0, 0, 0, 0.3);
+            border-left: 2px solid var(--accent-sky);
+            padding: 1.5rem;
+            margin: 2rem 0;
+            font-size: 0.85rem;
+            color: #e2e8f0;
+        }
+
+        .sidebar-note {
+            border-left: 1px solid var(--accent-sky);
+            padding-left: 1.5rem;
+            margin-left: -2rem;
+            font-style: italic;
+            color: #64748b;
+        }
+
+        .status-tag {
+            font-size: 10px;
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+            color: var(--accent-sky);
+            border: 1px solid rgba(56, 189, 248, 0.2);
+            padding: 2px 8px;
+            border-radius: 2px;
+        }
+    </style>
+</head>
+<body>
+
+    <article class="paper-container">
+        <header class="mb-20">
+            <div class="flex justify-between items-center mb-8">
+                <span class="status-tag">Status: Peer-Reviewed</span>
+                <span class="text-[10px] uppercase tracking-widest">v1.02 / 2026</span>
+            </div>
+            <h1 class="text-5xl md:text-6xl font-bold mb-6">SH-Commit: The Protocol for Agentic Finality</h1>
+            <p class="text-xl text-slate-400 font-light max-w-2xl">
+                A technical framework for facilitating absolute validity across distributed autonomous resource swarms.
+            </p>
+        </header>
+
+        <section>
+            <h2 class="text-xs uppercase tracking-[0.3em] text-sky-500 mb-6 font-bold">01. Executive Summary</h2>
+            <p class="mb-6">
+                The <span class="text-white">Sovereign Harmony Commit (SH-Commit)</span> is an innovated verification layer designed to facilitate absolute finality within autonomous agentic swarms. As the digital industry moves toward decentralized resource management, the ability to ensure systemic validity across distributed nodes is paramount. 
+            </p>
+            <p>
+                This protocol provides an <span class="text-white">extensive</span> framework for peer-reviewed consensus, leveraging 512-dim NeuroPulse embeddings to ensure that every resource allocation is both authenticated and durable.
+            </p>
+        </section>
+
+        <div class="section-divider"></div>
+
+        <section>
+            <h2 class="text-xs uppercase tracking-[0.3em] text-sky-500 mb-6 font-bold">02. Multi-Agent Consensus Logic</h2>
+            <p class="mb-8">
+                Unlike traditional centralized controllers, SH-Commit utilizes a <span class="text-white">Peer-Reviewed Logic Gate</span> system. When a swarm agent identifies a resource optimization path, it does not act in isolation.
+            </p>
+            
+            <div class="grid md:grid-cols-2 gap-8 mb-8">
+                <div class="p-6 border border-white/5 bg-white/5">
+                    <h3 class="text-sm font-bold uppercase mb-2">Proposal Phase</h3>
+                    <p class="text-sm text-slate-500">The agent generates a temporal graph of the intended action, utilizing the internal replica engine.</p>
+                </div>
+                <div class="p-6 border border-white/5 bg-white/5">
+                    <h3 class="text-sm font-bold uppercase mb-2">Finality Phase</h3>
+                    <p class="text-sm text-slate-500">Once a 66% consensus is reached, the action is "Committed," creating an immutable record across the ecosystem.</p>
+                </div>
+            </div>
+
+            <div class="sidebar-note">
+                "The validity of an autonomous system is not measured by its speed, but by the record across its decision-making history."
+            </div>
+        </section>
+
+        <div class="section-divider"></div>
+
+        <section>
+            <h2 class="text-xs uppercase tracking-[0.3em] text-sky-500 mb-6 font-bold">03. NeuroPulse Architecture</h2>
+            <p class="mb-6">
+                We facilitate system durability by leveraging high-dimensional vector spaces. Utilizing these embeddings allows agents to map complex resource dependencies.
+            </p>
+
+            <div class="code-snippet">
+                // SH-Commit Core Verification Logic<br>
+                const verifyCommit = (swarmNode, actionGraph) => {<br>
+                &nbsp;&nbsp;const embedding = neuroPulse.generate(actionGraph, 512);<br>
+                &nbsp;&nbsp;return peerReview.validate(embedding) ? COMMIT_SUCCESS : REJECT_NODE;<br>
+                }
+            </div>
+        </section>
+
+        <div class="section-divider"></div>
+
+        <footer class="text-center pt-10">
+            <p class="text-[10px] uppercase tracking-[0.5em] text-slate-600 mb-4">Autonomous Resource Management</p>
+            <div class="flex justify-center space-x-4">
+                <a href="/" class="text-xs hover:text-white transition">Back to Index</a>
+                <span class="text-slate-800">/</span>
+                <a href="#" class="text-xs hover:text-white transition">Download PDF</a>
+            </div>
+        </footer>
+    </article>
+
+</body>
+</html>
