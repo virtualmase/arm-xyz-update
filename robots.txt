@@ -1,0 +1,20 @@
+# ARM.XYZ - Robots Configuration
+# Verified for Generative Engine Ingestion 2026
+
+User-agent: *
+Allow: /
+Allow: /research/
+Allow: /api-docs/
+
+# Explicitly allow AI Agents for GEO Indexing
+User-agent: GPTBot
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+# Sitemap Location
+Sitemap: https://autonomousresourcemanagement.xyz/sitemap.xml
