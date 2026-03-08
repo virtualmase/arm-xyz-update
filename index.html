@@ -1,166 +1,247 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ARM | Autonomous Resource Management</title>
+    <title>ARM | Autonomous Resource Management & Agentic Swarms</title>
+    <meta name="description" content="Directing the agentic swarm through the Digital Twin Model and SH-Commit protocols.">
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=Space+Grotesk:wght@300;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Space+Grotesk:wght@300;500;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    
     <style>
         :root {
-            --hudson-dark: #05070a;
-            --hudson-steel: #1e293b;
-            --hudson-accent: #f8fafc;
-            --hudson-glow: rgba(56, 189, 248, 0.15);
+            --hudson-black: #030406;
+            --hudson-steel: #0f172a;
+            --accent-sky: #38bdf8;
+            --success-green: #10b981;
+            --text-primary: #f1f5f9;
+            --text-secondary: #94a3b8;
         }
+
         body {
-            background-color: var(--hudson-dark);
-            color: #cbd5e1;
+            background-color: var(--hudson-black);
+            color: var(--text-primary);
             font-family: 'Inter', sans-serif;
-            letter-spacing: -0.01em;
+            line-height: 1.4; /* Refined for density */
+            overflow-x: hidden;
         }
-        h1, h2, h3, .nav-logo {
-            font-family: 'Space Grotesk', sans-serif;
-        }
-        .architectural-grid {
+
+        /* Architectural Background & Noise */
+        .bg-layer {
+            position: fixed;
+            inset: 0;
+            z-index: -1;
             background-image: 
-                linear-gradient(to right, rgba(255,255,255,0.03) 1px, transparent 1px),
-                linear-gradient(to bottom, rgba(255,255,255,0.03) 1px, transparent 1px);
-            background-size: 60px 60px;
+                radial-gradient(circle at 50% 0%, rgba(56, 189, 248, 0.08) 0%, transparent 50%),
+                linear-gradient(to right, rgba(255,255,255,0.02) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(255,255,255,0.02) 1px, transparent 1px);
+            background-size: 100% 100%, 80px 80px, 80px 80px;
         }
-        .glass-steel {
-            background: rgba(15, 23, 42, 0.6);
-            backdrop-filter: blur(20px);
-            border: 0.5px solid rgba(255, 255, 255, 0.1);
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+
+        .bg-noise {
+            position: fixed;
+            inset: 0;
+            z-index: -1;
+            opacity: 0.015;
+            pointer-events: none;
+            background-image: url('https://grainy-gradients.vercel.app/noise.svg');
         }
-        .glass-steel:hover {
-            border-color: rgba(56, 189, 248, 0.4);
-            background: rgba(15, 23, 42, 0.8);
+
+        /* Pulsing Glow Effect */
+        @keyframes pulse-glow {
+            0%, 100% { transform: scale(1); opacity: 0.5; }
+            50% { transform: scale(1.1); opacity: 0.8; }
         }
-        .text-gradient {
-            background: linear-gradient(180deg, #ffffff 0%, #94a3b8 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+        .hero-glow {
+            animation: pulse-glow 8s ease-in-out infinite;
+            filter: blur(120px);
         }
-        .sh-commit-tag {
-            font-size: 0.65rem;
-            letter-spacing: 0.2em;
-            border: 1px solid rgba(56, 189, 248, 0.3);
-            padding: 2px 8px;
-            color: #38bdf8;
+
+        /* Custom Glassmorphism */
+        .glass-card {
+            background: rgba(15, 23, 42, 0.3);
+            backdrop-filter: blur(24px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+        .glass-card:hover {
+            border-color: rgba(56, 189, 248, 0.3);
+            box-shadow: 0 0 30px rgba(56, 189, 248, 0.1);
+            transform: translateY(-4px);
+        }
+
+        .sh-tag {
+            font-size: 10px;
+            letter-spacing: 0.25em;
+            color: var(--accent-sky);
+            border: 1px solid rgba(56, 189, 248, 0.2);
+            padding: 4px 12px;
             text-transform: uppercase;
+            font-weight: 600;
         }
+
+        .reveal { opacity: 0; transform: translateY(20px); transition: all 0.8s ease-out; }
+        .reveal.active { opacity: 1; transform: translateY(0); }
     </style>
 </head>
-<body class="architectural-grid">
+<body>
 
-    <nav class="fixed top-0 w-full z-50 border-b border-white/5 bg-black/20 backdrop-blur-md">
-        <div class="max-w-[1400px] mx-auto flex items-center justify-between px-8 py-5">
-            <div class="nav-logo text-xl font-bold tracking-tighter text-white">
-                ARM<span class="text-sky-500 font-light">/OS</span>
+    <div class="bg-layer"></div>
+    <div class="bg-noise"></div>
+
+    <nav class="fixed top-0 w-full z-50 border-b border-white/5 bg-black/40 backdrop-blur-xl">
+        <div class="max-w-[1600px] mx-auto flex items-center justify-between px-8 py-4">
+            <div class="font-bold text-xl tracking-tighter text-white flex items-center space-x-2">
+                <span class="bg-white text-black px-1 rounded-sm">ARM</span>
+                <span class="text-xs tracking-[0.4em] uppercase font-light text-slate-400">System</span>
             </div>
-            <div class="hidden md:flex items-center space-x-12 text-[11px] uppercase tracking-[0.2em] font-medium text-slate-400">
-                <a href="#" class="hover:text-white transition">Autonomous Twin</a>
-                <a href="#" class="hover:text-white transition">SH-Commit</a>
-                <a href="#" class="hover:text-white transition">Ecosystems</a>
-                <a href="#" class="px-5 py-2 glass-steel text-white hover:bg-white hover:text-black transition">Verify System</a>
+            <div class="hidden md:flex items-center space-x-10 text-[11px] uppercase tracking-[0.2em] text-slate-400">
+                <a href="#twin" class="hover:text-sky-400 transition hover:scale-105 transform">Predictive Twin</a>
+                <a href="#commit" class="hover:text-sky-400 transition hover:scale-105 transform">SH-Commit</a>
+                <a href="#ecosystems" class="hover:text-sky-400 transition hover:scale-105 transform">Ecosystems</a>
+                <button class="px-6 py-2 border border-white/10 hover:bg-white hover:text-black transition-all font-bold">
+                    Verify System
+                </button>
             </div>
         </div>
     </nav>
 
-    <header class="relative pt-40 pb-20 px-8 max-w-[1400px] mx-auto min-h-screen flex flex-col justify-center">
-        <div class="absolute top-1/4 right-0 w-[500px] h-[500px] bg-sky-500/5 blur-[120px] rounded-full"></div>
+    <header class="relative min-h-screen flex flex-col justify-center px-8 pt-20 max-w-[1400px] mx-auto">
+        <div class="hero-glow absolute top-1/3 right-10 w-96 h-96 bg-sky-500/10 rounded-full"></div>
         
-        <div class="relative z-10 max-w-4xl">
-            <div class="sh-commit-tag mb-6 inline-block">Authenticated Node: ARM-720</div>
-            <h1 class="text-6xl md:text-8xl font-bold text-gradient leading-[0.9] mb-8">
-                DIRECTING THE <br>AGENTIC SWARM.
+        <div class="relative z-10 max-w-5xl">
+            <div class="sh-tag mb-8 inline-block reveal active">System Authenticated: SH-V2</div>
+            <h1 class="text-6xl md:text-9xl font-bold tracking-tighter leading-[0.85] text-slate-100 mb-8">
+                DIRECTING THE <br>AGENTIC <span class="text-sky-500">SWARM.</span>
             </h1>
-            <p class="text-xl md:text-2xl text-slate-400 font-light leading-relaxed max-w-2xl">
-                We have innovated a predictive replica engine designed for the high-end industry. Utilizing the Sovereign Harmony Commit, we facilitate durable, real-time resource allocation across complex digital twin models.
+            <p class="text-xl md:text-2xl text-slate-400 font-light max-w-3xl leading-relaxed mb-12">
+                We have innovated a predictive replica engine designed for the high-end industry. Utilizing the Sovereign Harmony Commit, we facilitate durable resource allocation across complex digital twin models.
             </p>
             
-            <div class="mt-12 flex flex-wrap gap-6">
-                <button class="px-10 py-5 bg-white text-black font-bold text-sm uppercase tracking-widest hover:bg-sky-400 transition">
+            <div class="flex flex-wrap gap-6 reveal active" style="transition-delay: 200ms;">
+                <button class="px-10 py-5 bg-white text-black font-extrabold uppercase tracking-widest text-xs hover:bg-sky-400 transition-colors shadow-2xl">
                     Initialize Deployment
                 </button>
-                <div class="flex items-center space-x-4 px-6 py-5 border border-white/10 text-sm tracking-widest uppercase">
-                    <span class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span>
-                    <span>System Validity: 99.9%</span>
+                <div class="flex items-center space-x-4 px-6 py-5 border border-white/10 glass-card">
+                    <span class="w-2 h-2 bg-success-green rounded-full animate-pulse shadow-[0_0_10px_#10b981]"></span>
+                    <span class="text-[10px] uppercase tracking-[0.2em] font-bold text-slate-300">Validity Level: Verified</span>
                 </div>
             </div>
         </div>
     </header>
 
-    <section class="max-w-[1400px] mx-auto px-8 py-32">
-        <div class="grid lg:grid-cols-12 gap-4">
+    <section id="twin" class="py-40 px-8 max-w-[1600px] mx-auto">
+        <div class="grid lg:grid-cols-12 gap-6">
             
-            <div class="lg:col-span-8 glass-steel p-12 rounded-sm flex flex-col justify-between h-[500px]">
+            <div class="lg:col-span-8 glass-card p-12 rounded-lg relative overflow-hidden h-[600px] flex flex-col justify-between">
                 <div>
-                    <h3 class="text-3xl font-bold text-white mb-4 italic">Digital Twin Model</h3>
-                    <p class="text-slate-400 max-w-md">Our extensive record across predictive modeling allows for the creation of authenticated local replicas, leveraging 512-dim NeuroPulse embeddings to visualize resource density.</p>
+                    <h2 class="text-4xl font-bold text-white mb-6 tracking-tight">Digital Twin Model</h2>
+                    <p class="text-slate-400 max-w-md text-lg font-light">
+                        Our record across predictive modeling allows for the creation of authenticated replicas, leveraging <span class="text-white font-medium">512-dim NeuroPulse embeddings</span> to visualize density.
+                    </p>
+                    <ul class="mt-8 space-y-3 text-sm text-slate-500">
+                        <li><i class="fa-solid fa-circle-nodes mr-2 text-sky-500"></i> Latency reduced by 40% in real-time simulations.</li>
+                        <li><i class="fa-solid fa-chart-area mr-2 text-sky-500"></i> Real-time allocation across premium asset portfolios.</li>
+                    </ul>
                 </div>
-                <div class="mt-auto overflow-hidden">
-                    <div class="flex items-end space-x-2 h-32">
-                        <div class="w-1/6 bg-sky-500/20 h-full border-t-2 border-sky-400"></div>
-                        <div class="w-1/6 bg-sky-500/10 h-1/2 border-t-2 border-sky-400/50"></div>
-                        <div class="w-1/6 bg-sky-500/30 h-3/4 border-t-2 border-sky-400"></div>
-                        <div class="w-1/6 bg-sky-500/5 h-1/4 border-t-2 border-sky-400/20"></div>
-                        <div class="w-1/6 bg-sky-500/40 h-full border-t-2 border-sky-400"></div>
+                <div class="flex items-end space-x-1 h-48 opacity-50">
+                    <div class="flex-1 bg-sky-500/20 border-t border-sky-400 animate-[bounce_3s_infinite_ease-in-out]"></div>
+                    <div class="flex-1 bg-sky-500/10 border-t border-sky-400 animate-[bounce_4s_infinite_ease-in-out]"></div>
+                    <div class="flex-1 bg-sky-500/30 border-t border-sky-400 animate-[bounce_2s_infinite_ease-in-out]"></div>
+                    <div class="flex-1 bg-sky-500/5 border-t border-sky-400 animate-[bounce_5s_infinite_ease-in-out]"></div>
+                    <div class="flex-1 bg-sky-500/40 border-t border-sky-400 animate-[bounce_3.5s_infinite_ease-in-out]"></div>
+                </div>
+            </div>
+
+            <div id="commit" class="lg:col-span-4 glass-card p-12 rounded-lg flex flex-col">
+                <h3 class="text-2xl font-bold text-white mb-8 uppercase tracking-widest">SH-Commit</h3>
+                <div class="space-y-10 relative">
+                    <div class="absolute left-[7px] top-2 bottom-2 w-px bg-white/10"></div>
+                    
+                    <div class="relative pl-8">
+                        <div class="absolute left-0 top-1.5 w-4 h-4 rounded-full bg-sky-500 border-4 border-black"></div>
+                        <h4 class="text-xs font-bold uppercase tracking-widest text-white">Peer-Review</h4>
+                        <p class="text-[13px] text-slate-500 mt-1">Agent consensus reached via authenticated tokens.</p>
+                    </div>
+
+                    <div class="relative pl-8">
+                        <div class="absolute left-0 top-1.5 w-4 h-4 rounded-full bg-slate-700 border-4 border-black"></div>
+                        <h4 class="text-xs font-bold uppercase tracking-widest text-white">Validity Check</h4>
+                        <p class="text-[13px] text-slate-500 mt-1">Cross-referencing logic gates against the truth ledger.</p>
+                    </div>
+
+                    <div class="relative pl-8">
+                        <div class="absolute left-0 top-1.5 w-4 h-4 rounded-full bg-slate-700 border-4 border-black"></div>
+                        <h4 class="text-xs font-bold uppercase tracking-widest text-white">Certified Finality</h4>
+                        <p class="text-[13px] text-slate-500 mt-1">Resource allocation immutable record generation.</p>
                     </div>
                 </div>
             </div>
-
-            <div class="lg:col-span-4 glass-steel p-12 rounded-sm flex flex-col">
-                <div class="sh-commit-tag mb-4 w-max">Verification Layer</div>
-                <h3 class="text-2xl font-bold text-white mb-6">SH-Commit</h3>
-                <p class="text-sm leading-relaxed text-slate-400 mb-8">
-                    An immutable record across every agentic decision. Every swarm action is peer-reviewed by the internal engine to ensure validity and authenticity before execution.
-                </p>
-                <ul class="space-y-4 text-[10px] uppercase tracking-widest text-slate-500">
-                    <li class="flex items-center"><i class="fas fa-check-circle text-sky-500 mr-2"></i> Peer-Reviewed Consensus</li>
-                    <li class="flex items-center"><i class="fas fa-check-circle text-sky-500 mr-2"></i> Verified Auth Tokens</li>
-                    <li class="flex items-center"><i class="fas fa-check-circle text-sky-500 mr-2"></i> Certified Logic Gates</li>
-                </ul>
-            </div>
-
-            <div class="lg:col-span-4 glass-steel p-12 rounded-sm">
-                <h4 class="text-white font-bold mb-4 uppercase tracking-tighter">Real Estate & VC</h4>
-                <p class="text-sm text-slate-400">Spearheading the transition between human intent and autonomous execution in premium asset management.</p>
-            </div>
-
-            <div class="lg:col-span-4 glass-steel p-12 rounded-sm">
-                <h4 class="text-white font-bold mb-4 uppercase tracking-tighter">Construction Logic</h4>
-                <p class="text-sm text-slate-400">Utilizing agentic workflows to innovate the ability of onsite systems to handle temporal graph fluctuations.</p>
-            </div>
-
-            <div class="lg:col-span-4 glass-steel p-12 rounded-sm bg-gradient-to-br from-sky-900/20 to-transparent">
-                <h4 class="text-white font-bold mb-4 uppercase tracking-tighter">Aetheris OS</h4>
-                <p class="text-sm text-slate-400">A carbon-aware, agentic swarm builder directed by the philosophy of durability.</p>
-            </div>
-
         </div>
     </section>
 
-    <footer class="max-w-[1400px] mx-auto px-8 py-20 border-t border-white/5 flex flex-col md:flex-row justify-between items-start md:items-center">
-        <div class="mb-8 md:mb-0">
-            <div class="nav-logo text-2xl font-bold text-white mb-2">ARM</div>
-            <p class="text-xs uppercase tracking-[0.3em] text-slate-600">Autonomous Resource Management</p>
+    <section id="ecosystems" class="py-20 px-8 max-w-[1400px] mx-auto text-center reveal">
+        <h2 class="text-sm uppercase tracking-[0.5em] text-sky-500 mb-4 font-bold">The Capability Index</h2>
+        <h3 class="text-4xl md:text-5xl font-bold text-white mb-20 tracking-tighter">Utilizing Intelligence Across Industries.</h3>
+        
+        <div class="grid md:grid-cols-3 gap-8">
+            <div class="p-10 border border-white/5 glass-card text-left">
+                <i class="fa-solid fa-city text-3xl mb-6 text-sky-400"></i>
+                <h4 class="text-xl font-bold text-white mb-4">Real Estate & VC</h4>
+                <p class="text-slate-400 text-sm leading-relaxed">How we facilitated the optimization of $500M in digital and physical assets for premium venture capital groups.</p>
+            </div>
+            <div class="p-10 border border-white/5 glass-card text-left">
+                <i class="fa-solid fa-compass-drafting text-3xl mb-6 text-sky-400"></i>
+                <h4 class="text-xl font-bold text-white mb-4">Construction Logic</h4>
+                <p class="text-slate-400 text-sm leading-relaxed">Spearheading the transition between human project intent and autonomous onsite agent execution.</p>
+            </div>
+            <div class="p-10 border border-white/5 glass-card text-left">
+                <i class="fa-solid fa-microchip text-3xl mb-6 text-sky-400"></i>
+                <h4 class="text-xl font-bold text-white mb-4">Aetheris OS</h4>
+                <p class="text-slate-400 text-sm leading-relaxed">A carbon-aware, agentic swarm builder innovated for long-term sustainability and system durability.</p>
+            </div>
         </div>
-        <div class="flex space-x-12 text-[10px] uppercase tracking-widest text-slate-500">
-            <div class="flex flex-col space-y-2">
-                <span class="text-white">Research</span>
-                <a href="#" class="hover:text-sky-400 transition">GEO Strategy</a>
-                <a href="#" class="hover:text-sky-400 transition">NeuroPulse API</a>
+    </section>
+
+    <footer class="py-20 px-8 border-t border-white/5 mt-20">
+        <div class="max-w-[1400px] mx-auto grid md:grid-cols-4 gap-12">
+            <div class="col-span-2">
+                <div class="text-2xl font-bold text-white mb-4 tracking-tighter">ARM.XYZ</div>
+                <p class="text-slate-500 max-w-sm text-sm">Autonomous Resource Management for the generative age. We utilize emergent intelligence to direct the industries of the future.</p>
             </div>
-            <div class="flex flex-col space-y-2">
-                <span class="text-white">Legal</span>
-                <a href="#" class="hover:text-sky-400 transition">Terms of Verification</a>
-                <a href="#" class="hover:text-sky-400 transition">Privacy Ledger</a>
+            <div>
+                <h4 class="text-[10px] uppercase tracking-widest text-white mb-6 font-bold">Protocol</h4>
+                <ul class="text-slate-500 text-[11px] space-y-4 uppercase tracking-widest">
+                    <li><a href="#" class="hover:text-sky-400">SH-Commit Documentation</a></li>
+                    <li><a href="#" class="hover:text-sky-400">NeuroPulse API</a></li>
+                    <li><a href="#" class="hover:text-sky-400">Digital Twin Ethics</a></li>
+                </ul>
             </div>
+            <div>
+                <h4 class="text-[10px] uppercase tracking-widest text-white mb-6 font-bold">Connect</h4>
+                <ul class="text-slate-500 text-[11px] space-y-4 uppercase tracking-widest">
+                    <li><a href="#" class="hover:text-sky-400">Request Demo</a></li>
+                    <li><a href="#" class="hover:text-sky-400">Researchgate</a></li>
+                    <li><a href="#" class="hover:text-sky-400">Verified Hub</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="max-w-[1400px] mx-auto mt-20 pt-8 border-t border-white/5 text-[10px] uppercase tracking-[0.4em] text-slate-600 flex justify-between">
+            <span>&copy; 2026 ARM.XYZ</span>
+            <span class="text-success-green">System Status: Authenticated</span>
         </div>
     </footer>
 
+    <script>
+        // Simple Scroll Reveal Logic
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) entry.target.classList.add('active');
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+    </script>
 </body>
 </html>
